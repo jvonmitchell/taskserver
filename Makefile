@@ -1,10 +1,10 @@
 
 start:
-	killall node
+	killall -q node
 	nohup node todo.js &
 
 stop:
-	killall node
+	killall -q node
 
 updatecode:
 	cp ~/src/web/todo/* ./ -r
