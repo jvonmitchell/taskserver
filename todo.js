@@ -169,7 +169,7 @@ http.createServer(function(request,response) {
 	request.on("end",function () {
 		var urlparse = url.parse(request.url,true);
 		var get = urlparse.query;
-		response.writeHead(200,{'Content-Type':'text/html','Cache-Control':'no-cache','Connection':'keep-alive'});
+		response.writeHead(200,{'Content-Type':'text/html','Cache-Control':'no-cache','Connection':'keep-alive','Access-Control-Allow-Origin':'*'});
 		response.write('<head></head><body><a href="/">Home</a><br /><br /><div id="data" style="float:left;margin-right:256px;margin-left:32px">');
 		try {
 			var action = actions[get['a']];
