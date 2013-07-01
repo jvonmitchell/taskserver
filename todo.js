@@ -6,7 +6,7 @@ var http = require('http'),
 	actions = {},
 	quickactions = {},
 	needssave=true,
-	scriptures = [{'BOM':531,'BIBLE':1590,'JTC':793,'DC':298,'PEARL':61,'ENOCH':160,'RECOVERY':74,'RECOVERY':74,'RECOVERY':74},3655];
+	scriptures = [{'BOM':531,'BIBLE':1590,'DC':298,'PEARL':61},2480];
 
 function knuth_shuffle(a) {
     var n = a.length,
@@ -33,18 +33,23 @@ function displayprofile(profile) {
 	retr.push(profile.name);
 	retr.push('&a=rand">');
 	retr.push(profile.name);
-	retr.push("</a><br />");
+	retr.push("</a><br /><ul>");
 	for(var c in tasks) {
-		retr.push('<a href="?p=');
+		retr.push('<li><span><a href="?p=');
 		retr.push(profile.name);
 		retr.push('&a=removefrom&t=');
 		retr.push(tasks[c]);
 		retr.push('">x</a>');
 		retr.push(tasks[c]);
-		retr.push('<br />');
+		retr.push('</span></li>');
 	}
 	//wrong.  Create plan to escape characters.
-	retr.push('<input type="text" id="addition" /><br />');
+	retr.push('</ul><form method="GET" action="">\
+		<input type="text" id="addition" name="t" /><input type="submit" />\
+		<input type="text" name="a" class="hidden" value="addto" />\
+		<input type="text" name="p" class="hidden" value="');
+	retr.push(profile.name);
+	retr.push('" /></form>');
  //onkeypress=function(e) { 
 //		var x=JSON.parse(window.location.search.replace('?','{"').replace(/=/g,'":"').replace(/&/g,'","')+'"}');
 	return retr.join('');
@@ -67,7 +72,6 @@ actions['rand']=function(get,urlparse) {
 		var retr = [];
 		var tasks=profiles[get.p].tasks;
 		var numshown=Math.round(Math.max(0,Math.log(tasks.length)))+1;
-		var numstack=Math.round(Math.max(1,Math.log(tasks.length)/Math.log(Math.log(tasks.length))));
 		preselected = knuth_shuffle(profiles[get.p].tasks);
 		retr.push('<a href="?p=');
 		retr.push(get.p);
@@ -75,13 +79,14 @@ actions['rand']=function(get,urlparse) {
 		retr.push(get.p);
 		retr.push('</a>&nbsp;&nbsp;&nbsp;<a href="');
 		retr.push(urlparse.search);
-		retr.push('">re-do</a> STACK:');
-		retr.push(numstack);
-		retr.push('<br />');
+		retr.push('">re-do</a>');
+		retr.push('<br /><ul>');
 		for(var c=0;c<numshown;++c) {
+			retr.push('<li><span>');
 			retr.push(preselected[c]);
-			retr.push('<br />');
+			retr.push('</span></li>');
 		}
+		retr.push('</ul>');
 		retr = retr.join('');
 		console.log(retr);
 		return retr;
@@ -170,7 +175,7 @@ http.createServer(function(request,response) {
 		var urlparse = url.parse(request.url,true);
 		var get = urlparse.query;
 		response.writeHead(200,{'Content-Type':'text/html','Cache-Control':'no-cache','Connection':'keep-alive','Access-Control-Allow-Origin':'*'});
-		response.write('<head><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /><link rel="stylesheet" type="text/css" src="http://vimque.com/css/base.css" /><link rel="stylesheet" type="text/css" src="http://vimque.com/css/skeleton.css" /><link rel="stylesheet" type="text/css" src="http://vimque.com/css/layout.css" /></head><body><a href="/">Home</a><br /><br /><div id="data" style="float:left;margin-right:256px;margin-left:32px">');
+		response.write('<head><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /><link rel="stylesheet" type="text/css" href="http://vimque.com/css/base.css" /><link rel="stylesheet" type="text/css" href="http://vimque.com/css/skeleton.css" /><link rel="stylesheet" type="text/css" href="http://vimque.com/css/layout.css" /><link rel="stylesheet" type="text/css" href="http://vimque.com/css/todo.css" /></head><body><a href="/">Home</a><br /><br /><div id="data" style="float:left;">');
 		try {
 			var action = actions[get['a']];
 			if(action) {
@@ -183,21 +188,25 @@ http.createServer(function(request,response) {
 				response.write(displayprofile(profiles[get['p']]));
 			}
 			else {
-				for( x in profiles ) {
-					response.write('<a href="?p=');
+				response.write('<ul class="horizontal_list"><li><ul>');
+				for (x in profiles) {
+					response.write('<li><span><a href="?p=');
 					response.write(x);
 					response.write('">');
 					response.write(x);
-					response.write('</a><br />');
+					response.write('</a></span></li>');
 				}
-				response.write('</div><div id="quickactions">');
-				for( x in quickactions ) {
-					response.write('<a href="?a=quickaction&q=');
-					response.write(x);
-					response.write('">');
-					response.write(x);
-					response.write('</a><br />');
+				response.write('</ul></li><li id="quickactions"><ul>');
+				for (x in quickactions) {
+					if (quickactions.hasOwnProperty(x)) {
+						response.write('<li><span><a href="?a=quickaction&q=');
+						response.write(x);
+						response.write('">');
+						response.write(x);
+						response.write('</a></span></li>');
+					}
 				}
+				response.write('</ul></li></ul>');
 			}
 		} 
 		catch(e) {
