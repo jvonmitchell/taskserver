@@ -128,8 +128,8 @@ function addlisttoprofile(profilename,list) {
 	}
 }
 		
-		
-quickactions.morning = function () {
+var hiddenfunctions={}
+hiddenfunctions.morning = function () {
 	var listtoadd = ['brush','eat','shower','task storm 5','chug water','stack tasks','pray'];
 	listtoadd.push('scriptures:'+quickactions.rand_scripture());
 	if(!((new Date()).getDate()%3))
@@ -137,15 +137,17 @@ quickactions.morning = function () {
 	addlisttoprofile('morning',listtoadd);
 	return 'morning refreshed';
 }
-quickactions.night = function () {
+hiddenfunctions.night = function () {
 	var listtoadd = ['brush','insta-light works','water by bed','keys, wallet, phone together','pray','laptop docked','chug water','work commited to task list','journal'];
 	listtoadd.push('scriptures:'+quickactions.rand_scripture());
 	addlisttoprofile('night',listtoadd);
 	return 'night refreshed';
 }
-quickactions.clear_refreshable = function () {
+quickactions.refresh_refreshable = function () {
 	profiles.morning=new profile('morning');
 	profiles.night=new profile('night');
+	hiddenfunctions.morning();
+	hiddenfunctions.night();
 }
 
 quickactions.rand_scripture = function () {
