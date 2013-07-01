@@ -150,11 +150,10 @@ quickactions.clear_refreshable = function () {
 
 quickactions.rand_scripture = function () {
 	var i=Math.random()*scriptures[1];
-	var time = Math.floor(-Math.log(Math.random())*20);
 	for(var x in scriptures[0]) {
 		i-=scriptures[0][x];
 		if(i<0)
-			return x+': '+Math.floor(-i) + ' : '+time+'&nbsp;min';
+			return x+': '+Math.floor(-i);
 	}
 }
 quickactions.shutdown_gracefully = function () {
