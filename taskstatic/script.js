@@ -15,4 +15,5 @@ function addLoadEvent(func) {
 
 addLoadEvent(function () {
  document.getElementById('addition').focus();
+ document.body.scrollTop=0;
 });
