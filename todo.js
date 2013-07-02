@@ -176,7 +176,7 @@ http.createServer(function(request,response) {
 		var urlparse = url.parse(request.url,true);
 		var get = urlparse.query;
 		response.writeHead(200,{'Content-Type':'text/html','Cache-Control':'no-cache','Connection':'keep-alive','Access-Control-Allow-Origin':'*'});
-		response.write('<head><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /><link rel="stylesheet" type="text/css" href="http://vimque.com/css/base.css" /><link rel="stylesheet" type="text/css" href="http://vimque.com/css/skeleton.css" /><link rel="stylesheet" type="text/css" href="http://vimque.com/css/layout.css" /><link rel="stylesheet" type="text/css" href="http://vimque.com/css/todo.css" /></head><body><a href="/">Home</a><br /><br /><div id="data" style="float:left;">');
+		response.write('<head><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /><link rel="stylesheet" type="text/css" href="http://vimque.com/taskstatic/base.css" /><link rel="stylesheet" type="text/css" href="http://vimque.com/taskstatic/skeleton.css" /><link rel="stylesheet" type="text/css" href="http://vimque.com/taskstatic/layout.css" /><link rel="stylesheet" type="text/css" href="http://vimque.com/taskstatic/todo.css" /></head><body><a href="/">Home</a><br /><br /><div id="data" style="float:left;">');
 		try {
 			var action = actions[get['a']];
 			if(action) {
