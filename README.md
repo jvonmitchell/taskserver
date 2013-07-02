@@ -11,7 +11,9 @@ a function name, that function then handles extra paramaters.  p is for profile 
 actions:
 
 add, add a new profile (todo list), requires p.
+
 addto, adds a task to a profile, requires p and t.
+
 removefrom, removes a task from a profile, requires p and t.
 
 quickactions:
