@@ -130,7 +130,7 @@ function addlisttoprofile(profilename,list) {
 		
 var hiddenfunctions={}
 hiddenfunctions.morning = function () {
-	var listtoadd = ['brush','eat','shower','task storm 5','chug water','stack tasks','pray'];
+	var listtoadd = ['eat','shower','chug water','pray'];
 	listtoadd.push('scriptures:'+quickactions.rand_scripture());
 	if(!((new Date()).getDate()%3))
 		listtoadd.push('workout: '+ Math.floor(-Math.log(Math.random())*30));
