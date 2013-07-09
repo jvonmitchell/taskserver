@@ -131,23 +131,31 @@ function addlisttoprofile(profilename,list) {
 var hiddenfunctions = { morning : function () {
   var listtoadd = ['eat','shower','chug water','pray'];
   listtoadd.push('scriptures:'+quickactions.rand_scripture());
-  if( (new Date()).getDate()%3 == hiddenfunctions.phase ) {
+  if( (new Date()).getDate()%3 == hiddenfunctions.workoutphase ) {
    listtoadd.push('workout');
    if( Math.random()<Math.random() ) {
-    --hiddenfunctions.phase;
-    hiddenfunctions.phase%=3;
+    --hiddenfunctions.workoutphase;
+    hiddenfunctions.workoutphase%=3;
    }
   }
   addlisttoprofile('morning',listtoadd);
   return 'morning refreshed';
   },
  night : function () {
-  var listtoadd = ['brush','insta-light works','water by bed','keys, wallet, phone together','pray','laptop docked','chug water','work commited to task list','journal'];
+  var listtoadd = ['brush','water by bed','pray','laptop docked','chug water','work commited to task list','journal'];
+  if( (new Date()).getDate()%3 == hiddenfunctions.journalphase ) {
+   listtoadd.push('journal');
+   if( Math.random() < Math.random() ) {
+    --hiddenfunctions.journalphase;
+    hiddenfunctions.journalphase;
+   }
+  }
   listtoadd.push('scriptures:'+quickactions.rand_scripture());
   addlisttoprofile('night',listtoadd);
   return 'night refreshed';
  }
- phase : 0;
+ workoutphase : 0;
+ journalphose : 0;
 }
 
 quickactions.refresh_refreshable = function () {
