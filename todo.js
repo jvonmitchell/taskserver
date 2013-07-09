@@ -128,21 +128,28 @@ function addlisttoprofile(profilename,list) {
 	}
 }
 		
-var hiddenfunctions={}
-hiddenfunctions.morning = function () {
-	var listtoadd = ['eat','shower','chug water','pray'];
-	listtoadd.push('scriptures:'+quickactions.rand_scripture());
-	if(!((new Date()).getDate()%3))
-		listtoadd.push('workout: '+ Math.floor(-Math.log(Math.random())*30));
-	addlisttoprofile('morning',listtoadd);
-	return 'morning refreshed';
+var hiddenfunctions = { morning : function () {
+  var listtoadd = ['eat','shower','chug water','pray'];
+  listtoadd.push('scriptures:'+quickactions.rand_scripture());
+  if( (new Date()).getDate()%3 == hiddenfunctions.phase ) {
+   listtoadd.push('workout');
+   if( Math.random()<Math.random() ) {
+    --hiddenfunctions.phase;
+    hiddenfunctions.phase%=3;
+   }
+  }
+  addlisttoprofile('morning',listtoadd);
+  return 'morning refreshed';
+  },
+ night : function () {
+  var listtoadd = ['brush','insta-light works','water by bed','keys, wallet, phone together','pray','laptop docked','chug water','work commited to task list','journal'];
+  listtoadd.push('scriptures:'+quickactions.rand_scripture());
+  addlisttoprofile('night',listtoadd);
+  return 'night refreshed';
+ }
+ phase : 0;
 }
-hiddenfunctions.night = function () {
-	var listtoadd = ['brush','insta-light works','water by bed','keys, wallet, phone together','pray','laptop docked','chug water','work commited to task list','journal'];
-	listtoadd.push('scriptures:'+quickactions.rand_scripture());
-	addlisttoprofile('night',listtoadd);
-	return 'night refreshed';
-}
+
 quickactions.refresh_refreshable = function () {
 	profiles.morning=new profile('morning');
 	profiles.night=new profile('night');
