@@ -153,9 +153,9 @@ var hiddenfunctions = { morning : function () {
   listtoadd.push('scriptures:'+quickactions.rand_scripture());
   addlisttoprofile('night',listtoadd);
   return 'night refreshed';
- }
- workoutphase : 0;
- journalphose : 0;
+ },
+ workoutphase : 0,
+ journalphose : 0
 }
 
 quickactions.refresh_refreshable = function () {
