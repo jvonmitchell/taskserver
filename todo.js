@@ -127,35 +127,49 @@ function addlisttoprofile(profilename,list) {
 		t.push(list[c]);
 	}
 }
-		
-var hiddenfunctions = { morning : function () {
+
+var hiddenfunctions = {
+  
+  morning : function () {
   var listtoadd = ['eat','shower','chug water','pray'];
+  
   listtoadd.push('scriptures:'+quickactions.rand_scripture());
-  if( (new Date()).getDate()%3 == hiddenfunctions.workoutphase ) {
-   listtoadd.push('workout');
-   if( Math.random()<Math.random() ) {
-    --hiddenfunctions.workoutphase;
-    hiddenfunctions.workoutphase%=3;
+  var date = (new Date()).getDate();
+  var repeats = hiddenfunctions.morningrepeats;
+  for(var index in repeats) {
+   if( date % repeats[index].freq == repeats[index].phase ) {
+    listtoadd.push(repeats[index].name);
+    if( Math.random()<Math.random() ) {
+     --repeats[index].phase;
+     repeats[index].phase%=repeats[index].freq;
+    }
    }
   }
+  
   addlisttoprofile('morning',listtoadd);
   return 'morning refreshed';
   },
  night : function () {
   var listtoadd = ['brush','water by bed','pray','laptop docked','chug water','work commited to task list','journal'];
-  if( (new Date()).getDate()%3 == hiddenfunctions.journalphase ) {
-   listtoadd.push('journal');
-   if( Math.random() < Math.random() ) {
-    --hiddenfunctions.journalphase;
-    hiddenfunctions.journalphase;
+  listtoadd.push('scriptures:'+quickactions.rand_scripture());
+  
+  var date = (new Date()).getDate();
+  var repeats = hiddenfunctions.nightrepeats;
+  for(var index in repeats) {
+   if( date % repeats[index].freq == repeats[index].phase ) {
+    listtoadd.push(repeats[index].name);
+    if( Math.random()<Math.random() ) {
+     --repeats[index].phase;
+     repeats[index].phase%=repeats[index].freq;
+    }
    }
   }
-  listtoadd.push('scriptures:'+quickactions.rand_scripture());
+  
   addlisttoprofile('night',listtoadd);
   return 'night refreshed';
  },
- workoutphase : 0,
- journalphose : 0
+ morningrepeats : [{name:'trim',freq:5,phase:1},{name:'garden',freq:2,phase:1},{name:'workout',freq:3,phase:1}],
+ nightrepeates : [{name:'journal',freq:3,phase:1}]
 }
 
 quickactions.refresh_refreshable = function () {
